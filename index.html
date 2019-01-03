@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <!-- TODO: Google Analytics -->
+    <meta charset="utf-8">
+    <title>Civilizer</title>
+    <link rel="stylesheet" type="text/css" href="interface.css" />
+  </head>
+  <body>
+    <button type="button" name="button" onclick="addFood(1)">Gather food</button>
+    <span id="food">Food: 0 </span><span id="foodPerSec"> (0 per second)</span><br>
+    <button type="button" name="button" onclick="buildFarm()">Build farm</button>
+    <p>Farms: <span id="farms">0</span><br>
+      Cost: <span id="farmCost">10</span>
+    </p>
+    <button type="button" name="button" onclick="save()">Save</button>
+    <button type="button" name="button" onclick="load()">Load</button>
+    <button type="button" name="button" onclick="deleteSave()">Delete save</button>
+    <script type="text/javascript" src="main.js"></script>
+  </body>
+</html>
