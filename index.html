@@ -8,11 +8,26 @@
   </head>
   <body>
     <button type="button" name="button" onclick="addFood(1)">Gather food</button>
-    <span id="food">Food: 0 </span><span id="foodPerSec"> (0 per second)</span><br>
+    <span id="food">Food: 0 </span><br>
     <button type="button" name="button" onclick="buildFarm()">Build farm</button>
     <p>Farms: <span id="farms">0</span><br>
       Cost: <span id="farmCost">10</span>
     </p>
+
+    <button type="button" name="button" onclick="addWood(1)">Chop tree</button>
+    <span id="wood">Wood: 0 </span><br>
+    <button type="button" name="button" onclick="buildLumberjackHut()">Build lumberjack hut</button>
+    <p>Lumberjack Huts: <span id="lumberjackHuts">0</span><br>
+      Cost: <span id="lumberjackHutCost">10</span>
+    </p>
+
+    <button type="button" name="button" onclick="addStone(1)">Mine stone</button>
+    <span id="stone">Stone: 0 </span><br>
+    <button type="button" name="button" onclick="buildMine()">Build mine</button>
+    <p>Mines: <span id="mines">0</span><br>
+      Cost: <span id="mineCost">10</span>
+    </p>
+
     <button type="button" name="button" onclick="save()">Save</button>
     <button type="button" name="button" onclick="load()">Load</button>
     <button type="button" name="button" onclick="deleteSave()">Delete save</button>
