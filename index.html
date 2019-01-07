@@ -7,30 +7,45 @@
     <link rel="stylesheet" type="text/css" href="interface.css" />
   </head>
   <body>
-    <button type="button" name="button" onclick="addFood(1)">Gather food</button>
-    <span id="food">Food: 0 </span><br>
-    <button type="button" name="button" onclick="buildFarm()">Build farm</button>
-    <p>Farms: <span id="farms">0</span><br>
-      Cost: <span id="farmCost">10</span>
-    </p>
+    <div class="container">
+    <div id="resources">
+      <button type="button" name="button" onclick="addItem(item.food, 1)">Gather food</button>
+      <span id="food">Food: 0 </span><br>
+      <button type="button" name="button" onclick="build(item.food)">Build farm</button>
+      <p>Farms: <span id="farms">0</span><br>
+        Cost: <span id="farmCost">10</span>
+      </p>
 
-    <button type="button" name="button" onclick="addWood(1)">Chop tree</button>
-    <span id="wood">Wood: 0 </span><br>
-    <button type="button" name="button" onclick="buildLumberjackHut()">Build lumberjack hut</button>
-    <p>Lumberjack Huts: <span id="lumberjackHuts">0</span><br>
-      Cost: <span id="lumberjackHutCost">10</span>
-    </p>
+      <button type="button" name="button" onclick="addItem(item.wood, 1)">Chop tree</button>
+      <span id="wood">Wood: 0 </span><br>
+      <button type="button" name="button" onclick="build(item.wood)">Build lumberjack hut</button>
+      <p>Lumberjack Huts: <span id="lumberjackHuts">0</span><br>
+        Cost: <span id="lumberjackHutCost">10</span>
+      </p>
 
-    <button type="button" name="button" onclick="addStone(1)">Mine stone</button>
-    <span id="stone">Stone: 0 </span><br>
-    <button type="button" name="button" onclick="buildMine()">Build mine</button>
-    <p>Mines: <span id="mines">0</span><br>
-      Cost: <span id="mineCost">10</span>
-    </p>
+      <button type="button" name="button" onclick="addItem(item.stone, 1)">Mine stone</button>
+      <span id="stone">Stone: 0 </span><br>
+      <button type="button" name="button" onclick="build(item.stone)">Build mine</button>
+      <p>Mines: <span id="mines">0</span><br>
+        Cost: <span id="mineCost">10</span>
+      </p>
+    </div>
 
-    <button type="button" name="button" onclick="save()">Save</button>
-    <button type="button" name="button" onclick="load()">Load</button>
-    <button type="button" name="button" onclick="deleteSave()">Delete save</button>
-    <script type="text/javascript" src="main.js"></script>
+    <div id="army">
+      <button type="button" name="button" onclick="addItem(item.soldier, 1)">Train soldier</button>
+      <span id="soldier">Soldiers: 0 </span><br>
+      <button type="button" name="button" onclick="build(item.soldier)">Build barracks</button>
+      <p>Barracks: <span id="barracks">0</span><br>
+        Cost: <span id="barracksCost">10</span>
+      </p>
+    </div>
+
+    <div id="options">
+      <button type="button" name="button" onclick="save()">Save</button>
+      <button type="button" name="button" onclick="load()">Load</button>
+      <button type="button" name="button" onclick="deleteSave()">Delete save</button>
+      <script type="text/javascript" src="main.js"></script>
+    </div>
+  </div>
   </body>
 </html>

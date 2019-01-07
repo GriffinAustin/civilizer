@@ -1,79 +1,117 @@
-const COST = 10;
+const BASE_COST = 10;
+const COST_MULT = 1.2;
 
-var resources = {
-  "food": 0,
-  "wood": 0,
-  "stone": 0
-}
-
-var buildings = {
-  "farms": 0,
-  "lumberjackHuts": 0,
-  "mines": 0
-}
-
-function addFood(x) {
-  resources.food += x;
-  document.getElementById("food").innerHTML = "Food: " + resources.food;
-}
-
-function addWood(x) {
-  resources.wood += x;
-  document.getElementById("wood").innerHTML = "Wood: " + resources.wood;
-}
-
-function addStone(x) {
-  resources.stone += x;
-  document.getElementById("stone").innerHTML = "Stone: " + resources.stone;
-}
-
-function buildFarm() {
-  var farmCost = Math.floor(COST * Math.pow(1.1, buildings.farms));
-  if(resources.food >= farmCost){
-    buildings.farms++;
-    resources.food -= farmCost;
-    document.getElementById("farms").innerHTML = buildings.farms;
-    document.getElementById("food").innerHTML = "Food: " + resources.food;
+var item = {
+  "food": {
+    "name": "food",
+    "resource": {
+      "type": "material",
+      "count": 0
+    },
+    "building": {
+      "name": "farm",
+      "count": 0,
+      "cost": {
+        "wood": 10,
+        "stone": 5
+      }
+    }
+  },
+  "wood": {
+    "name": "wood",
+    "resource": {
+      "type": "material",
+      "count": 0
+    },
+    "building": {
+      "name": "lumberjackHut",
+      "count": 0,
+      "cost": {
+        "wood": 5,
+        "stone": 10
+      }
+    }
+  },
+  "stone": {
+    "name": "stone",
+    "resource": {
+      "type": "material",
+      "count": 0
+    },
+    "building": {
+      "name": "mine",
+      "count": 0,
+      "cost": {
+        "wood": 15
+      }
+    }
+  },
+  "soldier": {
+    "name": "soldier",
+    "resource": {
+      "type": "unit",
+      "count": 0
+    },
+    "building": {
+      "name": "barracks",
+      "count": 0,
+      "cost": {
+        "food": 200,
+        "wood": 50,
+        "stone": 100
+      }
+    }
   }
-  var nextCost = Math.floor(COST * Math.pow(1.1, buildings.farms));
-  document.getElementById("farmCost").innerHTML = nextCost;
 }
 
-function buildLumberjackHut() {
-  var lumberjackHutCost = Math.floor(COST * Math.pow(1.1, buildings.lumberjackHuts));
-  if(resources.wood >= lumberjackHutCost){
-    buildings.lumberjackHuts++;
-    resources.wood -= lumberjackHutCost;
-    document.getElementById("lumberjackHuts").innerHTML = buildings.lumberjackHuts;
-    document.getElementById("wood").innerHTML = "Wood: " + resources.wood;
-  }
-  var nextCost = Math.floor(COST * Math.pow(1.1, buildings.lumberjackHuts));
-  document.getElementById("lumberjackHutCost").innerHTML = nextCost;
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
-function buildMine() {
-  var mineCost = Math.floor(COST * Math.pow(1.1, buildings.mines));
-  if(resources.stone >= mineCost){
-    buildings.mines++;
-    resources.stone -= mineCost;
-    document.getElementById("mines").innerHTML = buildings.mines;
-    document.getElementById("stone").innerHTML = "Stone: " + resources.stone;
+function addItem(xItem, count) {
+  xItem.resource.count += count;
+  document.getElementById(xItem.name).innerHTML = xItem.name.capitalize() + ": " + xItem.resource.count;
+}
+
+function build(xItem) {
+  var canBuild = true;
+  for (var i = 0; i < Object.keys(xItem.building.cost).length; i++) {
+    var curResource = Object.keys(xItem.building.cost)[i];
+    if (canBuild) {
+      if (item[curResource].resource.count >= xItem.building.cost[curResource]) {
+        canBuild = true;
+      } else {
+        canBuild = false;
+      }
+    }
   }
-  var nextCost = Math.floor(COST * Math.pow(1.1, buildings.mines));
-  document.getElementById("mineCost").innerHTML = nextCost;
+  if (canBuild) {
+    xItem.building.count++;
+    document.getElementById(xItem.building.name + "s").innerHTML = xItem.building.count;
+    for (var i = 0; i < Object.keys(xItem.building.cost).length; i++) {
+      var curResource = Object.keys(xItem.building.cost)[i];
+      var curResourceCost = xItem.building.cost[curResource];
+      item[curResource].resource.count -= curResourceCost;
+
+      var newCost = Math.floor(curResourceCost * COST_MULT);
+      xItem.building.cost[curResource] = newCost;
+
+      document.getElementById(curResource).innerHTML = curResource.capitalize() + ": " + item[curResource].resource.count;
+    }
+  }
 }
 
 // Game loop (1000ms per loop)
 window.setInterval(function() {
-  addFood(buildings.farms);
-  addWood(buildings.lumberjackHuts);
-  addStone(buildings.mines);
+  addItem(item.food, item.food.building.count);
+  addItem(item.wood, item.wood.building.count);
+  addItem(item.stone, item.stone.building.count);
+  addItem(item.soldier, item.soldier.building.count);
 }, 1000);
 
 function save() {
   var save = {
-    resources: resources,
-    buildings: buildings
+    item: item
   }
   localStorage.setItem("save", JSON.stringify(save));
   console.log("Game saved.");
@@ -81,8 +119,7 @@ function save() {
 
 function load() {
   var savegame = JSON.parse(localStorage.getItem("save"));
-  if (typeof savegame.resources !== "undefined") resources = savegame.resources;
-  if (typeof savegame.buildings !== "undefined") buildings = savegame.buildings;
+  if (typeof savegame.item !== "undefined") item = savegame.item;
   console.log("Game loaded.");
 }
 
