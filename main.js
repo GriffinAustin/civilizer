@@ -53,7 +53,7 @@ var item = {
       "count": 0
     },
     "building": {
-      "name": "barracks",
+      "name": "barrack",
       "count": 0,
       "cost": {
         "food": 200,
@@ -75,9 +75,11 @@ function addItem(xItem, count) {
 
 function build(xItem) {
   var canBuild = true;
+  // Loop through all items in "cost" of item building
   for (var i = 0; i < Object.keys(xItem.building.cost).length; i++) {
     var curResource = Object.keys(xItem.building.cost)[i];
     if (canBuild) {
+      // Check if user has enough of current item
       if (item[curResource].resource.count >= xItem.building.cost[curResource]) {
         canBuild = true;
       } else {
@@ -86,8 +88,11 @@ function build(xItem) {
     }
   }
   if (canBuild) {
+    // Build building
     xItem.building.count++;
+    // Update HTML
     document.getElementById(xItem.building.name + "s").innerHTML = xItem.building.count;
+    // Loop through "cost" of item building to increase price for future
     for (var i = 0; i < Object.keys(xItem.building.cost).length; i++) {
       var curResource = Object.keys(xItem.building.cost)[i];
       var curResourceCost = xItem.building.cost[curResource];
@@ -96,6 +101,7 @@ function build(xItem) {
       var newCost = Math.floor(curResourceCost * COST_MULT);
       xItem.building.cost[curResource] = newCost;
 
+      // Update HTML
       document.getElementById(curResource).innerHTML = curResource.capitalize() + ": " + item[curResource].resource.count;
     }
   }
@@ -103,10 +109,16 @@ function build(xItem) {
 
 // Game loop (1000ms per loop)
 window.setInterval(function() {
+  for (var i = 0; i < Object.keys(item).length; i++) {
+    cur = Object.keys(item)[i];
+    addItem(item[cur], item[cur].building.count);
+  }
+  /*
   addItem(item.food, item.food.building.count);
   addItem(item.wood, item.wood.building.count);
   addItem(item.stone, item.stone.building.count);
   addItem(item.soldier, item.soldier.building.count);
+  */
 }, 1000);
 
 function save() {
@@ -127,3 +139,21 @@ function deleteSave() {
   localStorage.removeItem("save");
   console.log("Game deleted.");
 }
+
+class Cheat {
+
+  build(xItem, count) {
+    // Build building
+    xItem.building.count += count;
+    // Update HTML
+    document.getElementById(xItem.building.name + "s").innerHTML = xItem.building.count;
+  }
+
+}
+
+function init() {
+  let cheat = new Cheat();
+  console.log("Initialized");
+}
+
+window.onload = init;
