@@ -103,22 +103,27 @@ function build(xItem) {
 
       // Update HTML
       document.getElementById(curResource).innerHTML = curResource.capitalize() + ": " + item[curResource].resource.count;
+      updateCost(xItem);
     }
+  }
+}
+
+function updateCost(xItem) {
+  document.getElementById(xItem.building.name + "Cost").innerHTML = "";
+  for (var i = 0; i < Object.keys(xItem.building.cost).length; i++) {
+    var curCost = Object.keys(xItem.building.cost)[i];
+    var costVal = xItem.building.cost[curCost];
+    document.getElementById(xItem.building.name + "Cost").innerHTML += curCost.capitalize() + ": " + costVal + "<br>";
   }
 }
 
 // Game loop (1000ms per loop)
 window.setInterval(function() {
+  // Add items
   for (var i = 0; i < Object.keys(item).length; i++) {
     cur = Object.keys(item)[i];
     addItem(item[cur], item[cur].building.count);
   }
-  /*
-  addItem(item.food, item.food.building.count);
-  addItem(item.wood, item.wood.building.count);
-  addItem(item.stone, item.stone.building.count);
-  addItem(item.soldier, item.soldier.building.count);
-  */
 }, 1000);
 
 function save() {
@@ -152,8 +157,13 @@ class Cheat {
 }
 
 function init() {
-  let cheat = new Cheat();
-  console.log("Initialized");
+  for (var i = 0; i < Object.keys(item).length; i++) {
+    var curResource = Object.keys(item)[i];
+    updateCost(item[curResource]);
+  }
+
+  console.log("\nInitialized\n");
+
 }
 
 window.onload = init;
