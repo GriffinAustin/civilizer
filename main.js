@@ -1,4 +1,3 @@
-const BASE_COST = 10;
 const COST_MULT = 1.2;
 
 var item = {
@@ -117,15 +116,6 @@ function updateCost(xItem) {
   }
 }
 
-// Game loop (1000ms per loop)
-window.setInterval(function() {
-  // Add items
-  for (var i = 0; i < Object.keys(item).length; i++) {
-    cur = Object.keys(item)[i];
-    addItem(item[cur], item[cur].building.count);
-  }
-}, 1000);
-
 function save() {
   var save = {
     item: item
@@ -145,16 +135,14 @@ function deleteSave() {
   console.log("Game deleted.");
 }
 
-class Cheat {
-
-  build(xItem, count) {
-    // Build building
-    xItem.building.count += count;
-    // Update HTML
-    document.getElementById(xItem.building.name + "s").innerHTML = xItem.building.count;
+// Game loop (1000ms per loop)
+window.setInterval(function() {
+  // Add items
+  for (var i = 0; i < Object.keys(item).length; i++) {
+    cur = Object.keys(item)[i];
+    addItem(item[cur], item[cur].building.count);
   }
-
-}
+}, 1000);
 
 function init() {
   for (var i = 0; i < Object.keys(item).length; i++) {
@@ -167,3 +155,14 @@ function init() {
 }
 
 window.onload = init;
+
+class Cheat {
+
+  build(xItem, count) {
+    // Build building
+    xItem.building.count += count;
+    // Update HTML
+    document.getElementById(xItem.building.name + "s").innerHTML = xItem.building.count;
+  }
+
+}
